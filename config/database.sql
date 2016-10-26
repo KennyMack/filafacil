@@ -7,7 +7,7 @@ create table funcionario (
 	codfuncionario int auto_increment primary key,
 	nome varchar(255) not null,
 	status tinyint(1) not null default 0,
-	email varchar(100) not null,
+	email varchar(100) not n()ull,
 	senha varchar(20) not null,
 	descricao varchar(255),
 	disponivel tinyint(1) not null default 0,

@@ -2,19 +2,20 @@
 
   class Funcionario
   {
-    $codFuncionario = null;
-    $nome = null;
-    $status = null;
-    $email = null;
-    $senha = null;
-    $descricao = null;
-    $disponivel = null;
-    $dtCadastro = null;
-    $tipo = null;
+    public $codFuncionario = null;
+    public $nome = null;
+    public $status = null;
+    public $email = null;
+    public $senha = null;
+    public $descricao = null;
+    public $disponivel = null;
+    public $dtCadastro = null;
+    public $tipo = null;
+    private $db = null;
 
-    function __construct(argument)
+    function __construct($database)
     {
-      # code...
+        $this->db = $database;
     }
 
     public function getCodFuncionario()
@@ -106,6 +107,78 @@
     {
         $this->tipo = $pTipo;
     }
+
+    public function getSelect()
+    {
+        return $this->db->getJson('SELECT funcionario.codfuncionario,
+                                                             funcionario.nome,
+                                                             funcionario.status,
+                                                             funcionario.email,
+                                                             funcionario.senha,
+                                                             funcionario.descricao,
+                                                             funcionario.disponivel,
+                                                             funcionario.dtcadastro,
+                                                             funcionario.tipo
+                                                  FROM funcionario');
+    }
+
+    public function insert()
+    {
+        $sql = 'INSERT INTO funcionario (nome, status, email, senha, 
+                                                              descricao, disponivel, dtcadastro, tipo)
+                                            VALUES (:nome, :status, :email, :senha, 
+                                                           :descricao, :disponivel, now(), :tipo)';
+
+        $params = array(
+            ':nome' => $this->nome,
+            ':status' => $this->status,
+            ':email' => $this->email,
+            ':senha' => $this->senha,
+            ':descricao' => $this->descricao,
+            ':disponivel' => $this->disponivel,
+            ':tipo' => $this->tipo);
+
+        return $this->db->save($sql, $params);
+    }
+
+    public function update()
+    {
+        $sql = 'UPDATE funcionario
+                          SET nome = :nome,
+                                 status = :status,
+                                 email = :email,
+                                 senha = :senha,
+                                 descricao = :descricao,
+                                 disponivel = :disponivel,
+                                 tipo = :tipo
+                    WHERE codfuncionario = :codfuncionario';
+
+        $params = array(
+            ':nome' => $this->nome,
+            ':status' => $this->status,
+            ':email' => $this->email,
+            ':senha' => $this->senha,
+            ':descricao' => $this->descricao,
+            ':disponivel' => $this->disponivel,
+            ':tipo' => $this->tipo,
+            ':codfuncionario' => $this->codfuncionario);
+
+        return $this->db->save($sql, $params);
+    }
+
+    public function delete()
+    {
+        $sql = 'DELETE 
+                       FROM funcionario
+                    WHERE codfuncionario = :codfuncionario';
+
+        $params = array(
+            ':codfuncionario' => $this->codfuncionario);
+
+        return $this->db->remove($sql, $params);
+    }
+
+
 
   }
 
