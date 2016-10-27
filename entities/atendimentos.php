@@ -1,16 +1,17 @@
 <?php
 
-    class Atendimento
+    class Atendimentos
     {
 
-        $codatendimento = null;
-        $codfila = null;
-        $dtInicio = null;
-        $dtFim = null;
+        private $codAtendimento = null;
+        private $codFila = null;
+        private $dtInicio = null;
+        private $dtFim = null;
+        private $db = null;
 
-        function __construct(argument)
+        function __construct($database)
         {
-            # code...
+            $this->db = $database;
         }
 
         public function getCodAtendimento()
@@ -52,6 +53,58 @@
         {
             $this->dtFim = $pDtFim;
         }
+
+        public function getSelect()
+        {
+            return $this->db->getJson('SELECT atendimentos.codatendimento,
+                                                                     atendimentos.codfila,
+                                                                     atendimentos.dtinicio,
+                                                                     atendimentos.dtfim
+                                                          FROM atendimentos');
+        }
+
+        public function insert()
+        {
+            $sql = 'INSERT INTO atendimentos (codfila, dtinicio, dtfim)
+                                                   VALUES (:codfila, :dtinicio, :dtfim)';
+
+            $params = array(
+                ':codfila' => $this->codFila,
+                ':dtinicio' => $this->dtInicio,
+                ':dtfim' => $this->dtFim);
+
+            return $this->db->save($sql, $params);
+        }
+
+        public function update()
+        {
+            $sql = 'UPDATE atendimentos
+                              SET codfila = :codfila,
+                                     dtinicio = :dtinicio,
+                                     dtfim = :dtfim
+                        WHERE codatendimento = :codatendimento';
+            
+            $params = array(
+                ':codfila' => $this->codFila,
+                ':dtinicio' => $this->dtInicio,
+                ':dtfim' => $this->dtFim,
+                ':codatendimento' => $this->codAtendimento);
+
+            return $this->db->update($sql, $params);
+        }
+
+        public function delete()
+        {
+            $sql = 'DELETE 
+                           FROM atendimentos
+                        WHERE codatendimento = :codatendimento';
+
+            $params = array(
+                ':codatendimento' => $this->codAtendimento);
+
+            return $this->db->remove($sql, $params);
+        }
+
 
     }
 

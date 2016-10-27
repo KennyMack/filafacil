@@ -14,7 +14,7 @@ if (isset($_SERVER['PATH_INFO'])) {
 }
 //echo dirname(__FILE__) . '/controllers/funcionarioController.php';
 
-header('Content-Type: application/json');
+//header('Content-Type: application/json');
 /*
 
 if((bool)preg_match('[a]', 'b')) {
@@ -28,13 +28,14 @@ if ($request !== '/' && $request !== '' && $request !== null) {
     $routes = array(
                        'funcionario' => 'routers/funcionarioRouter.php', 
                        'fila' => 'routers/filaRouter.php', 
-                       'atendimento' => 'routers/atendimentosRouter.php', );
+                       'atendimentos' => 'routers/atendimentosRouter.php', );
 
     $router = '';
 
     if (isset($routes[$request]))
         $router = $routes[$request];
-    
+
+
     if ($router !== '') {
         require_once($router);
 
@@ -44,12 +45,13 @@ if ($request !== '/' && $request !== '' && $request !== null) {
                 echo $funcionario->route($uri, $method, getBody());
                 break;
             case 'fila':
+
                 $fila = new filaRouter($db);
-                $fila->route($uri, $method);
+                echo $fila->route($uri, $method, getBody());
                 break;
-            case 'atendimento':
+            case 'atendimentos':
                 $atendimentos = new atendimentosRouter($db);
-                $atendimentos->route($uri, $method);
+                 echo $atendimentos->route($uri, $method, getBody());
                 break;
             default:
                 http_response_code(404);

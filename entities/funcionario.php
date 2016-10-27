@@ -2,15 +2,15 @@
 
   class Funcionario
   {
-    public $codFuncionario = null;
-    public $nome = null;
-    public $status = null;
-    public $email = null;
-    public $senha = null;
-    public $descricao = null;
-    public $disponivel = null;
-    public $dtCadastro = null;
-    public $tipo = null;
+    private $codFuncionario = null;
+    private $nome = null;
+    private $status = null;
+    private $email = null;
+    private $senha = null;
+    private $descricao = null;
+    private $disponivel = null;
+    private $dtCadastro = null;
+    private $tipo = null;
     private $db = null;
 
     function __construct($database)
@@ -111,23 +111,23 @@
     public function getSelect()
     {
         return $this->db->getJson('SELECT funcionario.codfuncionario,
-                                                             funcionario.nome,
-                                                             funcionario.status,
-                                                             funcionario.email,
-                                                             funcionario.senha,
-                                                             funcionario.descricao,
-                                                             funcionario.disponivel,
-                                                             funcionario.dtcadastro,
-                                                             funcionario.tipo
-                                                  FROM funcionario');
+                                                                 funcionario.nome,
+                                                                 funcionario.status,
+                                                                 funcionario.email,
+                                                                 funcionario.senha,
+                                                                 funcionario.descricao,
+                                                                 funcionario.disponivel,
+                                                                 funcionario.dtcadastro,
+                                                                 funcionario.tipo
+                                                      FROM funcionario');
     }
 
     public function insert()
     {
         $sql = 'INSERT INTO funcionario (nome, status, email, senha, 
                                                               descricao, disponivel, dtcadastro, tipo)
-                                            VALUES (:nome, :status, :email, :senha, 
-                                                           :descricao, :disponivel, now(), :tipo)';
+                                               VALUES (:nome, :status, :email, :senha, 
+                                                              :descricao, :disponivel, now(), :tipo)';
 
         $params = array(
             ':nome' => $this->nome,
@@ -163,7 +163,7 @@
             ':tipo' => $this->tipo,
             ':codfuncionario' => $this->codfuncionario);
 
-        return $this->db->save($sql, $params);
+        return $this->db->update($sql, $params);
     }
 
     public function delete()

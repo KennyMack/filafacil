@@ -1,6 +1,7 @@
 <?php
     require_once('config/urls.php');
     require_once('baseRouter.php');
+    require_once('controllers/funcionarioController.php');
     /**
     * funcionarioRouter
     */
@@ -12,7 +13,6 @@
 
         function __construct($database)
         {
-            require_once('controllers/funcionarioController.php');
             $this->db = $database;
             $this->funcionarioController = new funcionarioController($this->db);
         }
@@ -21,16 +21,20 @@
         {
             $path = $method.'-'.$uri;
             
-            if ((bool)preg_match(urls::get_funcionario(), $path )) {
+            if ((bool)preg_match(urls::get_funcionario(), $path )) 
+            {
                 return $this->getFuncionario();
             }
-            else if ((bool)preg_match(urls::post_funcionario(), $path )) {
+            else if ((bool)preg_match(urls::post_funcionario(), $path )) 
+            {
                 return $this->createFuncionario('POST', $body);
             }
-            else if ((bool)preg_match(urls::put_funcionario(), $path )) {
+            else if ((bool)preg_match(urls::put_funcionario(), $path )) 
+            {
                 return $this->alterFuncionario('PUT', $body);
             }
-            else if ((bool)preg_match(urls::delete_funcionario(), $path )) {
+            else if ((bool)preg_match(urls::delete_funcionario(), $path )) 
+            {
                 $params = parent::getUriParams($uri);
 
                 return $this->deleteFuncionario($params[0]);
