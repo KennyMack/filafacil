@@ -2,7 +2,7 @@
 
 function mainMenu($page)
 {
-	$nav = '';
+    $nav = '';
 
 }
 

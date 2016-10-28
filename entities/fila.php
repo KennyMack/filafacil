@@ -71,7 +71,6 @@ class Fila
             ':codfuncionario' => $this->codFuncionario,
             ':ra' => $this->ra,
             ':status' => $this->status);
-        var_dump($params);
 
         return $this->db->save($sql, $params);
     }

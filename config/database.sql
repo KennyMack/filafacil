@@ -17,10 +17,11 @@ create table funcionario (
 
 create table fila (
 	codfila int auto_increment primary key,
-    codfuncionario int not null,
-    ra varchar(20) not null,
+	codfuncionario int not null,
+	ra varchar(20) not null,
 	status tinyint(1) not null default 1,
-    foreign key (codfuncionario) references funcionario(codfuncionario)
+	observacao longtext,
+	foreign key (codfuncionario) references funcionario(codfuncionario)
 );
 
 create table atendimentos (

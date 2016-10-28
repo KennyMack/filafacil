@@ -17,30 +17,54 @@
 
         public function select()
         {
-            return $this->atendimentosModel->getSelect();
+            try 
+            {
+                return  parent::httpResponse(true, $this->atendimentosModel->getSelect());
+            } 
+            catch (Exception $e) {
+                return parent::httpResponse(false, $e->getMessage());
+            }
         }
 
         public function save($type, $body)
         {
-                $this->atendimentosModel->setCodFila(parent::getField($body, "codfila"));
-                $this->atendimentosModel->setDtInicio(parent::getField($body, "dtinicio"));
-                $this->atendimentosModel->setDtFim(parent::getField($body, "dtfim"));
+            $this->atendimentosModel->setCodFila(parent::getField($body, "codfila", -1));
+            $this->atendimentosModel->setDtInicio(parent::getField($body, "dtinicio", null));
+            $this->atendimentosModel->setDtFim(parent::getField($body, "dtfim", null));
+            $this->atendimentosModel->setObservacao(parent::getField($body, "observacao"));
 
-            if ($type === 'POST') 
+            try 
             {
-                return $this->atendimentosModel->insert();
+                $data = '';
+                if ($type === 'POST') 
+                {
+                    $data = $this->atendimentosModel->insert();
+                }
+                else if ($type === 'PUT') 
+                {
+                    $this->atendimentosModel->setCodatendimento(parent::getField($body, "codatendimento", -1));
+                    $data = $this->atendimentosModel->update();
+                }
+
+
+                return parent::httpResponse($data > 0, $data);
+                
+            } catch (Exception $e) {
+                return parent::httpResponse(false, $e->getMessage());
             }
-            else if ($type === 'PUT') 
-            {
-                $this->atendimentosModel->setCodatendimento(parent::getField($body, "codatendimento", -1));
-                return $this->atendimentosModel->update();
-            }
+            
         }
 
         public function remove($id)
         {
-            $this->atendimentosModel->setCodatendimento($id);
-            return $this->atendimentosModel->delete();
+            try 
+            {
+                $this->atendimentosModel->setCodatendimento($id);
+                return parent::httpResponse(true, $this->atendimentosModel->delete());
+            } 
+            catch (Exception $e) {
+                return parent::httpResponse(false, $e->getMessage());
+            }
         }
 
     }

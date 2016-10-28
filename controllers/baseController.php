@@ -11,5 +11,15 @@
 
             return $default;
         }
+
+        public function httpResponse($ok, $data)
+        {
+            $objdata = array(
+                'status' => $ok,
+                'data' => $data
+            );
+
+            return json_encode($objdata);
+        }
     }
 ?>

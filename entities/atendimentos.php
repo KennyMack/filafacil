@@ -8,6 +8,7 @@
         private $dtInicio = null;
         private $dtFim = null;
         private $db = null;
+        private $observacao = null;
 
         function __construct($database)
         {
@@ -54,24 +55,37 @@
             $this->dtFim = $pDtFim;
         }
 
+        public function getObservacao()
+        {
+            return $this->observacao;
+        }
+
+        public function setObservacao($pObservacao)
+        {
+            $this->observacao = $pObservacao;
+        }
+
         public function getSelect()
         {
             return $this->db->getJson('SELECT atendimentos.codatendimento,
                                                                      atendimentos.codfila,
                                                                      atendimentos.dtinicio,
-                                                                     atendimentos.dtfim
+                                                                     atendimentos.dtfim,
+                                                                     atendimentos.observacao
                                                           FROM atendimentos');
         }
 
         public function insert()
         {
-            $sql = 'INSERT INTO atendimentos (codfila, dtinicio, dtfim)
-                                                   VALUES (:codfila, :dtinicio, :dtfim)';
+            $sql = 'INSERT INTO atendimentos (codfila, dtinicio, dtfim, observacao)
+                                                   VALUES (:codfila, :dtinicio, :dtfim, :observacao)';
+
 
             $params = array(
                 ':codfila' => $this->codFila,
                 ':dtinicio' => $this->dtInicio,
-                ':dtfim' => $this->dtFim);
+                ':dtfim' =>  $this->dtFim,
+                ':observacao' => $this->observacao);
 
             return $this->db->save($sql, $params);
         }
@@ -81,13 +95,16 @@
             $sql = 'UPDATE atendimentos
                               SET codfila = :codfila,
                                      dtinicio = :dtinicio,
-                                     dtfim = :dtfim
+                                     dtfim = :dtfim,
+                                     observacao = :observacao
                         WHERE codatendimento = :codatendimento';
             
+
             $params = array(
                 ':codfila' => $this->codFila,
                 ':dtinicio' => $this->dtInicio,
-                ':dtfim' => $this->dtFim,
+                ':dtfim' =>  isset($this->dtFim) ? $this->dtFim : null,
+                ':observacao' => isset($this->observacao) ? $this->observacao : null,
                 ':codatendimento' => $this->codAtendimento);
 
             return $this->db->update($sql, $params);

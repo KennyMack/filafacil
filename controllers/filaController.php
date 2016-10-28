@@ -18,31 +18,52 @@ class filaController extends baseController
 
     public function select()
     {
-        return $this->filaModel->getSelect();
+        try 
+        {
+            return parent::httpResponse(true, $this->filaModel->getSelect());
+        } 
+        catch (Exception $e) {
+            return parent::httpResponse(false, $e->getMessage());
+        }
     }
 
     public function save($type, $body)
     {
-        $this->filaModel->setCodFuncionario(parent::getField($body, "codfuncionario"));
+        $this->filaModel->setCodFuncionario(parent::getField($body, "codfuncionario", -1));
         $this->filaModel->setRa(parent::getField($body, "ra"));
         $this->filaModel->setStatus(parent::getField($body, "status", 0));
 
-        if ($type === 'POST') 
-        {
-            return $this->filaModel->insert();
-        }
-        else if ($type === 'PUT') 
-        {
-            $this->filaModel->setCodFila(parent::getField($body, "codfila", -1));
-            return $this->filaModel->update();
+         try 
+         {
+             $data = '';
+             if ($type === 'POST') 
+             {
+                 $data =  $this->filaModel->insert();
+             }
+             else if ($type === 'PUT') 
+             {
+                 $this->filaModel->setCodFila(parent::getField($body, "codfila", -1));
+                 $data =  $this->filaModel->update();
+             }
+
+             return parent::httpResponse($data > 0, $data);
+
+        } catch (Exception $e) {
+            return parent::httpResponse(false, $e->getMessage());
         }
 
     }
 
         public function remove($id)
         {
-            $this->filaModel->setCodFila($id);
-            return $this->filaModel->delete();
+            try 
+            {
+                $this->filaModel->setCodFila($id);
+                return parent::httpResponse(true, $this->filaModel->delete());
+            } 
+            catch (Exception $e) {
+                return parent::httpResponse(false, $e->getMessage());
+            }
         }
 }
 

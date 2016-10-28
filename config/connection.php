@@ -64,11 +64,14 @@ class Connection
         return $rs;
     }
 
-    public function getJson($sql, $params=null)
+    public function getJson($sql, $params=null, $encode=false)
     {
         $rs = $this->fetchData($sql, $params);
 
-        return json_encode($this->encode_all($rs));
+        if ($encode)
+            return json_encode($this->encode_all($rs));
+        
+        return $this->encode_all($rs);
     }
 
     public function save($sql, $params=null)

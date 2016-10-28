@@ -38,38 +38,127 @@ body {
     }
 
 header {
-  background-color: #cccccc;
-  width: 100%;
-  float: left;
-  min-height: 60px;
-
+    background: #cccccc;
+    width: 100%;
+    text-align:center;
+    min-height: 45px;
+    height: auto;
+    display: table;
 }
 
 header div {
-	width: 100px;
-	min-height: 60px;
+  height: auto;
+  min-height: 45px;
+  height: 100%;
+}
+
+header div {
+  box-sizing: border-box;
 }
 
 header div.left {
-	background: green;
-	float: left;	
+    float:left;
+    text-align: left;
+    width: 20%;
+}
+
+header div.left h1 {
+  line-height: 45px;
+  margin-left: 20px;
+}
+
+header div.center {
+    display: inline-block;
+    margin:0 auto;
+    width: 30%
 }
 
 header div.right {
-	background: green;
+    float:right;
+    width: 50%;
+    /*background: green;*/
 }
 
-header div.right nav {
-	background: limegreen;
+nav.desktop ul {
+    float: right;
+    /*background: red;*/
+    height: auto;
+    min-height: 45px;
 }
 
-header div.right nav ul {
-	width: 100%;
-	height: 100%;
+nav.desktop ul li {
+    display:  table-cell;
+    box-sizing: border-box;
 }
 
-header div.right nav ul li {
-	display: inline;
-	float: left;
-	background: orange;
+nav.desktop ul li a {
+    display: block;
+    padding: 14px 10px 10px 10px;
+    margin-left: 10px;
+    border-bottom: solid 5px #cccccc;
+    transition:all 400ms ease;
+    color: #222222;
+}
+
+nav.desktop ul li a:hover {
+  background: #bfbfbf;
+  border-bottom-color: #6b6b6b;
+
+}
+
+nav.desktop ul li a.active {
+  border-bottom-color: #6b6b6b;
+}
+
+main {
+  box-sizing: border-box;
+  width: 100%;
+  background: red;
+  margin: 10px auto;
+  max-width: 1300px;
+  display: block;
+  box-sizing: border-box;
+}
+
+.column-primary {
+  border-top: solid 3px #2196f3;
+}
+.column-alert {
+  border-top: solid 3px #5e35b1;
+}
+.column-main {
+  border-top: solid 3px #00695c;
+}
+.column-danger {
+  border-top: solid 3px #b71c1c;
+}
+
+.column {
+  display: table-cell;
+  box-sizing: border-box;
+  padding: 20px;
+  float: left;
+  margin: 10px 1% 10px 1%;
+  background: #fafafa;
+  border-left: solid 1px #bdbdbd;
+  border-right: solid 1px #bdbdbd;
+  border-bottom: solid 1px #bdbdbd;
+  border-radius: 3px;
+}
+
+.column-half {
+  width: 47%;
+}
+
+.column-all {
+  width: 96%;
+  margin: 10px 1% 10px 1%;
+  padding: 20px;
+}
+
+@media only screen and (max-width: 800px) {
+  .column-all,
+  .column-half {
+    width: 98%;
+  }
 }

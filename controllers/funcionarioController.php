@@ -17,34 +17,55 @@
 
         public function select()
         {
-            return $this->funcionarioModel->getSelect();
+            try 
+            {
+                return parent::httpResponse(true, $this->funcionarioModel->getSelect());
+            } 
+            catch (Exception $e) {
+                return parent::httpResponse(false, $e->getMessage());
+            }
         }
 
         public function save($type, $body)
         {
-                $this->funcionarioModel->setNome(parent::getField($body, "nome"));
-                $this->funcionarioModel->setStatus(parent::getField($body, "status"));
-                $this->funcionarioModel->setEmail(parent::getField($body, "email"));
-                $this->funcionarioModel->setSenha(parent::getField($body, "senha"));
-                $this->funcionarioModel->setDescricao(parent::getField($body, "descricao"));
-                $this->funcionarioModel->setTipo(parent::getField($body, "tipo", 0));
-                $this->funcionarioModel->setDisponivel(parent::getField($body, "disponivel", 0));
+            $this->funcionarioModel->setNome(parent::getField($body, "nome"));
+            $this->funcionarioModel->setStatus(parent::getField($body, "status"));
+            $this->funcionarioModel->setEmail(parent::getField($body, "email"));
+            $this->funcionarioModel->setSenha(parent::getField($body, "senha"));
+            $this->funcionarioModel->setDescricao(parent::getField($body, "descricao"));
+            $this->funcionarioModel->setTipo(parent::getField($body, "tipo", 0));
+            $this->funcionarioModel->setDisponivel(parent::getField($body, "disponivel", 0));
 
-            if ($type === 'POST') 
+            try 
             {
-                return $this->funcionarioModel->insert();
-            }
-            else if ($type === 'PUT') 
-            {
-                $this->funcionarioModel->setCodfuncionario(parent::getField($body, "codfuncionario", -1));
-                return $this->funcionarioModel->update();
+                $data = '';
+                if ($type === 'POST') 
+                {
+                    $data = $this->funcionarioModel->insert();
+                }
+                else if ($type === 'PUT') 
+                {
+                    $this->funcionarioModel->setCodfuncionario(parent::getField($body, "codfuncionario", -1));
+                    $data = $this->funcionarioModel->update();
+                }
+
+                return parent::httpResponse($data > 0, $data);
+                
+            } catch (Exception $e) {
+                return parent::httpResponse(false, $e->getMessage());
             }
         }
 
         public function remove($id)
         {
-            $this->funcionarioModel->setCodfuncionario($id);
-            return $this->funcionarioModel->delete();
+            try
+            {
+                $this->funcionarioModel->setCodfuncionario($id);
+                return parent::httpResponse(true, $this->funcionarioModel->delete());
+            } 
+            catch (Exception $e) {
+                return parent::httpResponse(false, $e->getMessage());
+            }
         }
 
     }
