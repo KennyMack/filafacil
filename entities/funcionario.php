@@ -122,11 +122,20 @@
                                                       FROM funcionario');
     }
 
+    public function getSelectAvailable()
+    {
+        return $this->db->getJson('SELECT funcionario.codfuncionario,
+                                          funcionario.nome
+                                     FROM funcionario
+                                    WHERE funcionario.disponivel = 1
+                                      AND funcionario.tipo = 1');
+    }
+
     public function insert()
     {
-        $sql = 'INSERT INTO funcionario (nome, status, email, senha, 
+        $sql = 'INSERT INTO funcionario (nome, status, email, senha,
                                                               descricao, disponivel, dtcadastro, tipo)
-                                               VALUES (:nome, :status, :email, :senha, 
+                                               VALUES (:nome, :status, :email, :senha,
                                                               :descricao, :disponivel, now(), :tipo)';
 
         $params = array(
@@ -145,12 +154,12 @@
     {
         $sql = 'UPDATE funcionario
                           SET nome = :nome,
-                                 status = :status,
-                                 email = :email,
-                                 senha = :senha,
-                                 descricao = :descricao,
-                                 disponivel = :disponivel,
-                                 tipo = :tipo
+                              status = :status,
+                              email = :email,
+                              senha = :senha,
+                              descricao = :descricao,
+                              disponivel = funcionario.disponivel,
+                              tipo = :tipo
                     WHERE codfuncionario = :codfuncionario';
 
         $params = array(
@@ -159,7 +168,6 @@
             ':email' => $this->email,
             ':senha' => $this->senha,
             ':descricao' => $this->descricao,
-            ':disponivel' => $this->disponivel,
             ':tipo' => $this->tipo,
             ':codfuncionario' => $this->codfuncionario);
 
@@ -168,7 +176,7 @@
 
     public function delete()
     {
-        $sql = 'DELETE 
+        $sql = 'DELETE
                        FROM funcionario
                     WHERE codfuncionario = :codfuncionario';
 

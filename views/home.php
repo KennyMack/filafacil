@@ -1,31 +1,18 @@
 <?php
     include_once '../includes/header.inc.php';
+    include_once '../includes/nav.inc.php';
 ?>
 <!DOCTYPE html>
 <html>
+<head>
 
 <?php
     echo head('Home');
 ?>
+</head>
 <body>
 <div class="container">
-    <header>
-        <div class="left">
-            <h1>Home</h1>
-        </div>
-        <div class="center">
-            &nbsp;
-        </div>
-        <div class="right">
-            <nav class="desktop">
-                <ul>
-                    <li><a class="active" href="person.php">Funcionários</a></li>
-                    <li><a href="queue.php">Fila</a></li>
-                    <li><a href="attendance.php">Atendimento</a></li>
-                </ul>
-            </nav>
-        </div>
-    </header>
+  <?php echo mainMenu('home'); ?>
     <main>
       <div class="row">
         <div class="column column-half column-primary">

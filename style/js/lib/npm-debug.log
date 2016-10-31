@@ -1,0 +1,57 @@
+0 info it worked if it ends with ok
+1 verbose cli [ '/usr/bin/nodejs', '/usr/bin/npm', 'install', 'jquery' ]
+2 info using npm@2.15.9
+3 info using node@v4.6.0
+4 verbose install initial load of /var/www/html/filafacil/style/js/lib/package.json
+5 verbose readDependencies loading dependencies from /var/www/html/filafacil/style/js/lib/package.json
+6 silly cache add args [ 'jquery', null ]
+7 verbose cache add spec jquery
+8 silly cache add parsed spec Result {
+8 silly cache add   raw: 'jquery',
+8 silly cache add   scope: null,
+8 silly cache add   name: 'jquery',
+8 silly cache add   rawSpec: '',
+8 silly cache add   spec: 'latest',
+8 silly cache add   type: 'tag' }
+9 silly addNamed jquery@latest
+10 verbose addNamed "latest" is being treated as a dist-tag for jquery
+11 info addNameTag [ 'jquery', 'latest' ]
+12 silly mapToRegistry name jquery
+13 silly mapToRegistry using default registry
+14 silly mapToRegistry registry https://registry.npmjs.org/
+15 silly mapToRegistry data Result {
+15 silly mapToRegistry   raw: 'jquery',
+15 silly mapToRegistry   scope: null,
+15 silly mapToRegistry   name: 'jquery',
+15 silly mapToRegistry   rawSpec: '',
+15 silly mapToRegistry   spec: 'latest',
+15 silly mapToRegistry   type: 'tag' }
+16 silly mapToRegistry uri https://registry.npmjs.org/jquery
+17 verbose addNameTag registry:https://registry.npmjs.org/jquery not in flight; fetching
+18 verbose request uri https://registry.npmjs.org/jquery
+19 verbose request no auth needed
+20 info attempt registry request try #1 at 22:32:37
+21 verbose request id dca4e9aedfa2fc80
+22 http request GET https://registry.npmjs.org/jquery
+23 info retry will retry, error on last attempt: Error: getaddrinfo EAI_AGAIN registry.npmjs.org:443
+24 info attempt registry request try #2 at 22:33:07
+25 http request GET https://registry.npmjs.org/jquery
+26 info retry will retry, error on last attempt: Error: getaddrinfo EAI_AGAIN registry.npmjs.org:443
+27 info attempt registry request try #3 at 22:34:27
+28 http request GET https://registry.npmjs.org/jquery
+29 verbose stack Error: getaddrinfo EAI_AGAIN registry.npmjs.org:443
+29 verbose stack     at Object.exports._errnoException (util.js:907:11)
+29 verbose stack     at errnoException (dns.js:32:15)
+29 verbose stack     at GetAddrInfoReqWrap.onlookup [as oncomplete] (dns.js:78:26)
+30 verbose cwd /var/www/html/filafacil/style/js/lib
+31 error Linux 4.4.0-42-generic
+32 error argv "/usr/bin/nodejs" "/usr/bin/npm" "install" "jquery"
+33 error node v4.6.0
+34 error npm  v2.15.9
+35 error code EAI_AGAIN
+36 error errno EAI_AGAIN
+37 error syscall getaddrinfo
+38 error getaddrinfo EAI_AGAIN registry.npmjs.org:443
+39 error If you need help, you may report this error at:
+39 error     <https://github.com/npm/npm/issues>
+40 verbose exit [ 1, true ]

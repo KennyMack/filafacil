@@ -24,9 +24,10 @@ class Connection
     {
         try
         {
-            $this->conn = new PDO($this->getConnStr(), $this->getUser(), $this->getPassword());
+            $this->conn = new PDO($this->getConnStr(), $this->getUser(), $this->getPassword(), array(PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES 'utf8'"));
 
             $this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
         }
         catch (PDOException $e) {
             die($e->getMessage());
@@ -70,7 +71,7 @@ class Connection
 
         if ($encode)
             return json_encode($this->encode_all($rs));
-        
+
         return $this->encode_all($rs);
     }
 
@@ -109,10 +110,10 @@ class Connection
 
     public function encode_all($data)
     {
-        if (is_string($data)) 
+        if (is_string($data))
             return utf8_encode($data);
 
-        if (!is_array($data)) 
+        if (!is_array($data))
             return $data;
 
         $ret = array();

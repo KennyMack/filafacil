@@ -56,10 +56,13 @@ class Fila
     public function getSelect()
     {
         return $this->db->getJson('SELECT fila.codfila,
-                                                                 fila.codfuncionario,
-                                                                 fila.ra,
-                                                                 fila.status
-                                                      FROM fila');
+                                          fila.codfuncionario,
+                                          funcionario.nome funcionarionome,
+                                          fila.ra,
+                                          fila.status
+                                     FROM fila
+                                    INNER JOIN funcionario
+                                       ON (fila.codfuncionario = funcionario.codfuncionario)');
     }
 
     public function insert()
@@ -95,7 +98,7 @@ class Fila
 
     public function delete()
     {
-        $sql = 'DELETE 
+        $sql = 'DELETE
                        FROM fila
                     WHERE codfila = :codfila';
 

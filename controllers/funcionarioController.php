@@ -17,10 +17,21 @@
 
         public function select()
         {
-            try 
+            try
             {
                 return parent::httpResponse(true, $this->funcionarioModel->getSelect());
-            } 
+            }
+            catch (Exception $e) {
+                return parent::httpResponse(false, $e->getMessage());
+            }
+        }
+
+        public function selectAvailable()
+        {
+            try
+            {
+                return parent::httpResponse(true, $this->funcionarioModel->getSelectAvailable());
+            }
             catch (Exception $e) {
                 return parent::httpResponse(false, $e->getMessage());
             }
@@ -36,21 +47,21 @@
             $this->funcionarioModel->setTipo(parent::getField($body, "tipo", 0));
             $this->funcionarioModel->setDisponivel(parent::getField($body, "disponivel", 0));
 
-            try 
+            try
             {
                 $data = '';
-                if ($type === 'POST') 
+                if ($type === 'POST')
                 {
                     $data = $this->funcionarioModel->insert();
                 }
-                else if ($type === 'PUT') 
+                else if ($type === 'PUT')
                 {
                     $this->funcionarioModel->setCodfuncionario(parent::getField($body, "codfuncionario", -1));
                     $data = $this->funcionarioModel->update();
                 }
 
                 return parent::httpResponse($data > 0, $data);
-                
+
             } catch (Exception $e) {
                 return parent::httpResponse(false, $e->getMessage());
             }
@@ -62,7 +73,7 @@
             {
                 $this->funcionarioModel->setCodfuncionario($id);
                 return parent::httpResponse(true, $this->funcionarioModel->delete());
-            } 
+            }
             catch (Exception $e) {
                 return parent::httpResponse(false, $e->getMessage());
             }

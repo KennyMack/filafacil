@@ -2,11 +2,16 @@
 /**
 *   urls
 */
-class urls 
+class urls
 {
     public static function get_funcionario()
     {
         return '/^GET-\/funcionario\/?$/';
+    }
+
+    public static function get_funcionario_available()
+    {
+        return '/^GET-\/funcionario-available\/?$/';
     }
 
     public static function post_funcionario()
@@ -21,7 +26,7 @@ class urls
 
     public static function delete_funcionario()
     {
-        return '/^DELETE-\/funcionario\/\d\/?$/';
+        return '/^DELETE-\/funcionario\/\d+\/?$/';
     }
 
     public static function get_fila()
@@ -41,7 +46,7 @@ class urls
 
     public static function delete_fila()
     {
-        return '/^DELETE-\/fila\/\d\/?$/';
+        return '/^DELETE-\/fila\/\d+\/?$/';
     }
 
     public static function get_atendimentos()
@@ -61,7 +66,7 @@ class urls
 
     public static function delete_atendimentos()
     {
-        return '/^DELETE-\/atendimentos\/\d\/?$/';
+        return '/^DELETE-\/atendimentos\/\d+\/?$/';
     }
 }
 ?>

@@ -19,8 +19,7 @@ create table fila (
 	codfila int auto_increment primary key,
 	codfuncionario int not null,
 	ra varchar(20) not null,
-	status tinyint(1) not null default 1,
-	observacao longtext,
+	status tinyint(1) not null default 0, -- 0 aguardando / 1 andamento / 2 finalizado
 	foreign key (codfuncionario) references funcionario(codfuncionario)
 );
 
@@ -29,5 +28,6 @@ create table atendimentos (
 	codfila int not null,
 	dtinicio datetime,
 	dtfim datetime,
+	observacao longtext,
 	foreign key (codfila) references fila(codfila)
 );
