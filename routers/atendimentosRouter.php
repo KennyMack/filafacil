@@ -20,20 +20,24 @@ class atendimentosRouter extends baseRouter
     public function route($uri, $method, $body)
     {
         $path = $method.'-'.$uri;
-        
-        if ((bool)preg_match(urls::get_atendimentos(), $path )) 
+
+        if ((bool)preg_match(urls::get_atendimentos(), $path ))
         {
             return $this->getAtendimentos();
         }
-        else if ((bool)preg_match(urls::post_atendimentos(), $path )) 
+        else if ((bool)preg_match(urls::post_atendimentos(), $path ))
         {
             return $this->createAtendimentos('POST', $body);
         }
-        else if ((bool)preg_match(urls::put_atendimentos(), $path )) 
+        else if ((bool)preg_match(urls::post_atendimentos_termina(), $path ))
+        {
+            return $this->finalizaAtendimentos($body);
+        }
+        else if ((bool)preg_match(urls::put_atendimentos(), $path ))
         {
             return $this->alterAtendimentos('PUT', $body);
         }
-        else if ((bool)preg_match(urls::delete_atendimentos(), $path )) 
+        else if ((bool)preg_match(urls::delete_atendimentos(), $path ))
         {
             $params = parent::getUriParams($uri);
 
@@ -51,6 +55,11 @@ class atendimentosRouter extends baseRouter
     public function createAtendimentos($type, $body)
     {
         return $this->atendimentosController->save($type, $body);
+    }
+
+    public function finalizaAtendimentos($body)
+    {
+        return $this->atendimentosController->finaliza($body);
     }
 
     public function alterAtendimentos($type, $body)

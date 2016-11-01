@@ -26,10 +26,14 @@ echo 'false';*/
 
 if ($request !== '/' && $request !== '' && $request !== null) {
     $routes = array(
+
       'funcionarioavailable' => 'routers/funcionarioRouter.php',
       'funcionario' => 'routers/funcionarioRouter.php',
+      'filaemployee' => 'routers/filaRouter.php',
+      'filaandamento' => 'routers/filaRouter.php',
       'fila' => 'routers/filaRouter.php',
-      'atendimentos' => 'routers/atendimentosRouter.php', );
+      'atendimentostermina' => 'routers/atendimentosRouter.php',
+      'atendimentos' => 'routers/atendimentosRouter.php' );
 
     $router = '';
     if (isset($routes[$request]))
@@ -48,10 +52,21 @@ if ($request !== '/' && $request !== '' && $request !== null) {
                 $funcionario = new funcionarioRouter($db);
                 echo $funcionario->route($uri, $method, getBody());
                 break;
-            case 'fila':
-
+            case 'filaandamento':
                 $fila = new filaRouter($db);
                 echo $fila->route($uri, $method, getBody());
+                break;
+            case 'filaemployee':
+                $fila = new filaRouter($db);
+                echo $fila->route($uri, $method, getBody());
+                break;
+            case 'fila':
+                $fila = new filaRouter($db);
+                echo $fila->route($uri, $method, getBody());
+                break;
+            case 'atendimentostermina':
+                $atendimentos = new atendimentosRouter($db);
+                 echo $atendimentos->route($uri, $method, getBody());
                 break;
             case 'atendimentos':
                 $atendimentos = new atendimentosRouter($db);

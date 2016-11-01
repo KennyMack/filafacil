@@ -9,7 +9,7 @@ class filaController extends baseController
 {
     private $db = null;
     private $filaModel = null;
-    
+
     function __construct($database)
     {
         $this->db = $database;
@@ -18,10 +18,22 @@ class filaController extends baseController
 
     public function select()
     {
-        try 
+        try
         {
             return parent::httpResponse(true, $this->filaModel->getSelect());
-        } 
+        }
+        catch (Exception $e) {
+            return parent::httpResponse(false, $e->getMessage());
+        }
+    }
+
+    public function selectFilaEmployee($codfuncionario)
+    {
+        try
+        {
+            $this->filaModel->setCodFuncionario($codfuncionario);
+            return parent::httpResponse(true, $this->filaModel->selectFilaEmployee());
+        }
         catch (Exception $e) {
             return parent::httpResponse(false, $e->getMessage());
         }
@@ -33,14 +45,14 @@ class filaController extends baseController
         $this->filaModel->setRa(parent::getField($body, "ra"));
         $this->filaModel->setStatus(parent::getField($body, "status", 0));
 
-         try 
+         try
          {
              $data = '';
-             if ($type === 'POST') 
+             if ($type === 'POST')
              {
                  $data =  $this->filaModel->insert();
              }
-             else if ($type === 'PUT') 
+             else if ($type === 'PUT')
              {
                  $this->filaModel->setCodFila(parent::getField($body, "codfila", -1));
                  $data =  $this->filaModel->update();
@@ -54,17 +66,29 @@ class filaController extends baseController
 
     }
 
-        public function remove($id)
+    public function andamento($body)
+    {
+        try
         {
-            try 
-            {
-                $this->filaModel->setCodFila($id);
-                return parent::httpResponse(true, $this->filaModel->delete());
-            } 
-            catch (Exception $e) {
-                return parent::httpResponse(false, $e->getMessage());
-            }
+            $this->filaModel->setCodFila(parent::getField($body, "codfila", -1));
+            return parent::httpResponse(true, $this->filaModel->andamento());
         }
+        catch (Exception $e) {
+            return parent::httpResponse(false, $e->getMessage());
+        }
+    }
+
+    public function remove($id)
+    {
+        try
+        {
+            $this->filaModel->setCodFila($id);
+            return parent::httpResponse(true, $this->filaModel->delete());
+        }
+        catch (Exception $e) {
+            return parent::httpResponse(false, $e->getMessage());
+        }
+    }
 }
 
 ?>

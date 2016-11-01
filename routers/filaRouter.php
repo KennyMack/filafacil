@@ -11,7 +11,7 @@ class filaRouter extends baseRouter
     private $filaController = null;
     private $db = null;
 
-    
+
     function __construct($database)
     {
         $this->db = $database;
@@ -21,20 +21,30 @@ class filaRouter extends baseRouter
     public function route($uri, $method, $body)
     {
         $path = $method.'-'.$uri;
-        
-        if ((bool)preg_match(urls::get_fila(), $path )) 
+
+        if ((bool)preg_match(urls::get_fila(), $path ))
         {
             return $this->getFila();
         }
-        else if ((bool)preg_match(urls::post_fila(), $path )) 
+        else if ((bool)preg_match(urls::get_fila_employee(), $path ))
+        {
+            $params = parent::getUriParams($uri);
+
+            return $this->getFilaEmployee($params[0]);
+        }
+        else if ((bool)preg_match(urls::post_fila(), $path ))
         {
             return $this->createFila('POST', $body);
         }
-        else if ((bool)preg_match(urls::put_fila(), $path )) 
+        else if ((bool)preg_match(urls::post_fila_andamento(), $path ))
+        {
+            return $this->andamentoFila($body);
+        }
+        else if ((bool)preg_match(urls::put_fila(), $path ))
         {
             return $this->alterFila('PUT', $body);
         }
-        else if ((bool)preg_match(urls::delete_fila(), $path )) 
+        else if ((bool)preg_match(urls::delete_fila(), $path ))
         {
             $params = parent::getUriParams($uri);
 
@@ -47,6 +57,16 @@ class filaRouter extends baseRouter
     public function getFila()
     {
         return $this->filaController->select();
+    }
+
+    public function getFilaEmployee($codfuncionario)
+    {
+        return $this->filaController->selectFilaEmployee($codfuncionario);
+    }
+
+    public function andamentoFila($body)
+    {
+        return $this->filaController->andamento($body);
     }
 
     public function createFila($type, $body)

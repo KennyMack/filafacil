@@ -34,9 +34,19 @@ class urls
         return '/^GET-\/fila\/?$/';
     }
 
+    public static function get_fila_employee()
+    {
+        return '/^GET-\/fila-employee\/\d+\/?$/';
+    }
+
     public static function post_fila()
     {
         return '/^POST-\/fila\/?$/';
+    }
+
+    public static function post_fila_andamento()
+    {
+        return '/^POST-\/fila-andamento\/?$/';
     }
 
     public static function put_fila()
@@ -57,6 +67,11 @@ class urls
     public static function post_atendimentos()
     {
         return '/^POST-\/atendimentos\/?$/';
+    }
+
+    public static function post_atendimentos_termina()
+    {
+        return '/^POST-\/atendimentos-termina\/?$/';
     }
 
     public static function put_atendimentos()

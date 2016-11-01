@@ -105,6 +105,7 @@ nav.desktop ul li a {
     border-bottom: solid 5px #cccccc;
     transition:all 400ms ease;
     color: #222222;
+
 }
 
 nav.desktop ul li a:hover {
@@ -125,6 +126,14 @@ main {
   max-width: 1300px;
   display: block;
   box-sizing: border-box;
+}
+
+.group-caption {
+  display: block;
+  text-align: center;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  font-size: 1.2em;
 }
 
 .column-primary {
@@ -241,6 +250,15 @@ main {
   padding-top: 10px;
 }
 
+.frmRegister textarea {
+  border: solid 1px #bdbdbd;
+  background: none;
+  font-size: 1.5em;
+  padding: 5px;
+  resize: vertical;
+  margin-bottom: 20px;
+}
+
 .frmRegister input,
 .frmRegister select {
   margin: 0px 15px 25px 15px;
@@ -249,7 +267,6 @@ main {
   background: none;
   font-size: 1.2em;
   height: 30px;
-
 }
 
 .frmRegister select {
@@ -325,6 +342,11 @@ main {
   cursor: pointer;
 }
 
+.frmRegister textarea {
+  width: 100%;
+  min-height: 200px;
+}
+
 table.tbData {
   width: 100%;
   /*background-color: green;*/
@@ -356,6 +378,11 @@ table.tbData tbody tr td {
   padding-top: 15px;
   padding-bottom: 15px;
   text-align: center;
+}
+
+.p-Time {
+  line-height: 35px;
+  display: block;
 }
 
 

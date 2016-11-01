@@ -65,6 +65,23 @@ class Fila
                                        ON (fila.codfuncionario = funcionario.codfuncionario)');
     }
 
+    public function selectFilaEmployee()
+    {
+      $params = array(
+          ':codfuncionario' => $this->codFuncionario);
+
+      return $this->db->getJson('SELECT fila.codfila,
+                                        fila.codfuncionario,
+                                        funcionario.nome funcionarionome,
+                                        fila.ra,
+                                        fila.status
+                                   FROM fila
+                                  INNER JOIN funcionario
+                                     ON (fila.codfuncionario = funcionario.codfuncionario)
+                                  WHERE fila.status = 0
+                                    AND fila.codfuncionario = :codfuncionario', $params);
+    }
+
     public function insert()
     {
         $sql = 'INSERT INTO fila (codfuncionario, ra, status)
@@ -95,6 +112,34 @@ class Fila
 
         return $this->db->update($sql, $params);
     }
+
+    public function finaliza()
+    {
+        $sql = 'UPDATE fila
+                   SET status = 2
+                 WHERE codfila = :codfila';
+
+        $params = array(
+            ':codfila' => $this->codFila);
+
+
+        return $this->db->update($sql, $params);
+    }
+
+    public function andamento()
+    {
+        $sql = 'UPDATE fila
+                   SET status = 1
+                 WHERE codfila = :codfila';
+
+        $params = array(
+            ':codfila' => $this->codFila);
+
+
+        return $this->db->update($sql, $params);
+    }
+
+
 
     public function delete()
     {
