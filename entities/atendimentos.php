@@ -9,10 +9,21 @@
         private $dtFim = null;
         private $db = null;
         private $observacao = null;
+        private $codFuncionario = null;
 
         function __construct($database)
         {
             $this->db = $database;
+        }
+
+        public function getCodFuncionario()
+        {
+            return $this->$codFuncionario;
+        }
+
+        public function setCodFuncionario($pCodFuncionario)
+        {
+            $this->codFuncionario = $pCodFuncionario;
         }
 
         public function getCodAtendimento()
@@ -75,6 +86,23 @@
                                                           FROM atendimentos');
         }
 
+        public function getEmployeeFila()
+        {
+            return $this->db->getJson('SELECT atendimentos.codatendimento,
+                                       atendimentos.codfila,
+                                       fila.ra,
+                                       atendimentos.dtinicio,
+                                       atendimentos.dtfim,
+                                       atendimentos.observacao
+                                  FROM atendimentos
+                            INNER JOIN fila
+                                    ON (atendimentos.codfila = fila.codfila)
+                                 WHERE fila.codfuncionario = :codfuncionario
+                                 ORDER BY atendimentos.codatendimento DESC',
+                            array(
+                                ':codfuncionario' => $this->codFuncionario));
+        }
+
         public function insert()
         {
             $sql = 'INSERT INTO atendimentos (codfila, dtinicio, dtfim, observacao)
@@ -98,7 +126,7 @@
                                      dtfim = :dtfim,
                                      observacao = :observacao
                         WHERE codatendimento = :codatendimento';
-            
+
 
             $params = array(
                 ':codfila' => $this->codFila,
@@ -112,7 +140,7 @@
 
         public function delete()
         {
-            $sql = 'DELETE 
+            $sql = 'DELETE
                            FROM atendimentos
                         WHERE codatendimento = :codatendimento';
 

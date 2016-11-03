@@ -14,7 +14,7 @@ if (isset($_SERVER['PATH_INFO'])) {
 }
 //echo dirname(__FILE__) . '/controllers/funcionarioController.php';
 
-header('Content-Type: application/json');
+//header('Content-Type: application/json');
 /*
 
 if((bool)preg_match('[a]', 'b')) {
@@ -26,12 +26,16 @@ echo 'false';*/
 
 if ($request !== '/' && $request !== '' && $request !== null) {
     $routes = array(
-
+      'funcionariologin' => 'routers/funcionarioRouter.php',
+      'funcionariologoff' => 'routers/funcionarioRouter.php',
       'funcionarioavailable' => 'routers/funcionarioRouter.php',
       'funcionario' => 'routers/funcionarioRouter.php',
       'filaemployee' => 'routers/filaRouter.php',
       'filaandamento' => 'routers/filaRouter.php',
+      'filacancelar' => 'routers/filaRouter.php',
+      'filadash' => 'routers/filaRouter.php',
       'fila' => 'routers/filaRouter.php',
+      'atendimentosfuncionario' => 'routers/atendimentosRouter.php',
       'atendimentostermina' => 'routers/atendimentosRouter.php',
       'atendimentos' => 'routers/atendimentosRouter.php' );
 
@@ -52,6 +56,14 @@ if ($request !== '/' && $request !== '' && $request !== null) {
                 $funcionario = new funcionarioRouter($db);
                 echo $funcionario->route($uri, $method, getBody());
                 break;
+            case 'funcionariologin':
+                $funcionario = new funcionarioRouter($db);
+                echo $funcionario->route($uri, $method, getBody());
+                break;
+            case 'funcionariologoff':
+                $funcionario = new funcionarioRouter($db);
+                echo $funcionario->route($uri, $method, getBody());
+                break;
             case 'filaandamento':
                 $fila = new filaRouter($db);
                 echo $fila->route($uri, $method, getBody());
@@ -60,9 +72,21 @@ if ($request !== '/' && $request !== '' && $request !== null) {
                 $fila = new filaRouter($db);
                 echo $fila->route($uri, $method, getBody());
                 break;
+            case 'filacancelar':
+                $fila = new filaRouter($db);
+                echo $fila->route($uri, $method, getBody());
+                break;
+            case 'filadash':
+                $fila = new filaRouter($db);
+                echo $fila->route($uri, $method, getBody());
+                break;
             case 'fila':
                 $fila = new filaRouter($db);
                 echo $fila->route($uri, $method, getBody());
+                break;
+            case 'atendimentosfuncionario':
+                $atendimentos = new atendimentosRouter($db);
+                 echo $atendimentos->route($uri, $method, getBody());
                 break;
             case 'atendimentostermina':
                 $atendimentos = new atendimentosRouter($db);

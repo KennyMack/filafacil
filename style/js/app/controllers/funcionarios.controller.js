@@ -6,7 +6,8 @@
       'BASEURLS',
       '$filter',
       '$window',
-      function($http, BASEURLS, $filter, $window){
+      'authFactory',
+      function($http, BASEURLS, $filter, $window, authFactory){
 
         var self = this;
         self.cbeStatusOtions = [
@@ -54,29 +55,34 @@
         };
 
         self.loadGrid = function () {
-          self.datatable = [];
-          self.loading = true;
-          $http({
-            method: 'GET',
-            url: BASEURLS.BASE_API + 'funcionario'
-          })
-          .then(function (result, response) {
-            if (result.data.status) {
-              self.datatable = result.data.data;
-              for (var i = 0; i < self.datatable.length; i++) {
-                self.datatable[i]['dtcadastro'] =
-                $filter('date')(new Date(self.datatable[i]['dtcadastro']), 'dd/MM/yyyy');
-                self.datatable[i]['disponivel'] = self.datatable[i]['disponivel'] == '1' ? 'Sim' : 'Não';
-                self.datatable[i]['tipo'] = self.datatable[i]['tipo'] == '1' ? 'Atendente' : 'Secretária';
-                self.datatable[i]['status'] = self.datatable[i]['status'] == '1' ? 'Ativo' : 'Inativo';
+          if (!authFactory.isAuthenticated()){
+            window.location = BASEURLS.BASE + 'views/login.php';
+          }
+          else {
+            self.datatable = [];
+            self.loading = true;
+            $http({
+              method: 'GET',
+              url: BASEURLS.BASE_API + 'funcionario'
+            })
+            .then(function (result, response) {
+              if (result.data.status) {
+                self.datatable = result.data.data;
+                for (var i = 0; i < self.datatable.length; i++) {
+                  self.datatable[i]['dtcadastro'] =
+                  $filter('date')(new Date(self.datatable[i]['dtcadastro']), 'dd/MM/yyyy');
+                  self.datatable[i]['disponivel'] = self.datatable[i]['disponivel'] == '1' ? 'Sim' : 'Não';
+                  self.datatable[i]['tipo'] = self.datatable[i]['tipo'] == '1' ? 'Atendente' : 'Secretária';
+                  self.datatable[i]['status'] = self.datatable[i]['status'] == '1' ? 'Ativo' : 'Inativo';
+                }
               }
-            }
-            self.loading = false;
-          },
-          function(err) {
-            self.loading = false;
-            console.log(err);
-          });
+              self.loading = false;
+            },
+            function(err) {
+              self.loading = false;
+              console.log(err);
+            });
+          }
         };
 
         self.deleteRow = function(id) {

@@ -7,7 +7,8 @@
       'BASEURLS',
       '$filter',
       '$window',
-      function($http, BASEURLS, $filter, $window) {
+      'authFactory',
+      function($http, BASEURLS, $filter, $window, authFactory) {
         var self = this;
 
         self.clearFields = function() {
@@ -44,85 +45,90 @@
         };
 
         self.loadGrid = function () {
-          self.datatable = [];
-          self.EmployeeAvailable = [];
+          if (!authFactory.isAuthenticated()){
+            window.location = BASEURLS.BASE + 'views/login.php';
+          }
+          else {
+            self.datatable = [];
+            self.EmployeeAvailable = [];
 
-          self.loading = true;
-          $http({
-            method: 'GET',
-            url: BASEURLS.BASE_API + 'fila'
-          })
-          .then(function (result, response) {
-            if (result.data.status) {
-              self.datatable = result.data.data;
-              for (var i = 0; i < self.datatable.length; i++) {
-                var desc = '';
-                switch (self.datatable[i]['status']) {
-                  case '0':
-                    desc = 'Aguardando';
-                    break;
-                  case '1':
-                    desc = 'Andamento';
-                    break;
-                  case '2':
-                    desc = 'Finalizado';
-                    break;
+            self.loading = true;
+            $http({
+              method: 'GET',
+              url: BASEURLS.BASE_API + 'fila'
+            })
+            .then(function (result, response) {
+              if (result.data.status) {
+                self.datatable = result.data.data;
+                for (var i = 0; i < self.datatable.length; i++) {
+                  var desc = '';
+                  switch (self.datatable[i]['status']) {
+                    case '0':
+                      desc = 'Aguardando';
+                      break;
+                    case '1':
+                      desc = 'Andamento';
+                      break;
+                    case '2':
+                      desc = 'Finalizado';
+                      break;
+                  }
+
+                  self.datatable[i]['descstatus'] = desc;
                 }
-
-                self.datatable[i]['descstatus'] = desc;
               }
-            }
-            self.loading = false;
-          },
-          function(err) {
-            self.loading = false;
-            console.log(err);
-          });
-
-          $http({
-            method: 'GET',
-            url: BASEURLS.BASE_API + 'funcionario-available'
-          })
-          .then(function (result, response) {
-            if (result.data.status) {
-              self.EmployeeAvailable = result.data.data;
-              if (self.EmployeeAvailable.length)
-                self.selectedAtendantOption = self.EmployeeAvailable[0];
-              else
-                self.selectedAtendantOption = '';
-            }
-            self.loading = false;
-          },
-          function(err) {
-            self.loading = false;
-            console.log(err);
-          });
-        };
-
-        self.deleteRow = function(id) {
-          self.loading = true;
-          $http({
-            method: 'DELETE',
-            url: BASEURLS.BASE_API + 'fila/' + id
-          })
-          .then(function (result, response) {
-            if (result.data.status){
-              self.loadGrid();
-            }
-            else{
-              self.messages = [];
-              self.messages.push({
-                id: Math.floor((Math.random() * 100) + 1),
-                message: 'Registro não pode ser excluído'
-              });
               self.loading = false;
-            }
+            },
+            function(err) {
+              self.loading = false;
+              console.log(err);
+            });
 
-          },
-          function(err) {
-            self.loading = false;
-            console.log(err);
-          });
+            $http({
+              method: 'GET',
+              url: BASEURLS.BASE_API + 'funcionario-available'
+            })
+            .then(function (result, response) {
+              if (result.data.status) {
+                self.EmployeeAvailable = result.data.data;
+                if (self.EmployeeAvailable.length)
+                  self.selectedAtendantOption = self.EmployeeAvailable[0];
+                else
+                  self.selectedAtendantOption = '';
+              }
+              self.loading = false;
+            },
+            function(err) {
+              self.loading = false;
+              console.log(err);
+            });
+          };
+
+          self.deleteRow = function(id) {
+            self.loading = true;
+            $http({
+              method: 'DELETE',
+              url: BASEURLS.BASE_API + 'fila/' + id
+            })
+            .then(function (result, response) {
+              if (result.data.status){
+                self.loadGrid();
+              }
+              else{
+                self.messages = [];
+                self.messages.push({
+                  id: Math.floor((Math.random() * 100) + 1),
+                  message: 'Registro não pode ser excluído'
+                });
+                self.loading = false;
+              }
+
+            },
+            function(err) {
+              self.loading = false;
+              console.log(err);
+            });
+          }
         }
 
         self.validate = function() {
@@ -133,6 +139,14 @@
             self.messages.push({
               id: Math.floor((Math.random() * 100) + 1),
               message: 'Selecione o Atendente.'
+            });
+          }
+
+          if ((!self.ra) ||
+             (self.ra == undefined)) {
+            self.messages.push({
+              id: Math.floor((Math.random() * 100) + 1),
+              message: 'Informe o R.A.'
             });
           }
 

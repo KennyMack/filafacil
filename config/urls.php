@@ -19,6 +19,16 @@ class urls
         return '/^POST-\/funcionario\/?$/';
     }
 
+    public static function post_funcionario_login()
+    {
+        return '/^POST-\/funcionario-login\/?$/';
+    }
+
+    public static function post_funcionario_logoff()
+    {
+        return '/^POST-\/funcionario-logoff\/?$/';
+    }
+
     public static function put_funcionario()
     {
         return '/^PUT-\/funcionario\/?$/';
@@ -32,6 +42,11 @@ class urls
     public static function get_fila()
     {
         return '/^GET-\/fila\/?$/';
+    }
+
+    public static function get_fila_dash()
+    {
+        return '/^GET-\/fila-dash\/?$/';
     }
 
     public static function get_fila_employee()
@@ -49,6 +64,11 @@ class urls
         return '/^POST-\/fila-andamento\/?$/';
     }
 
+    public static function post_fila_cancelar()
+    {
+        return '/^POST-\/fila-cancelar\/?$/';
+    }
+
     public static function put_fila()
     {
         return '/^PUT-\/fila\/?$/';
@@ -62,6 +82,11 @@ class urls
     public static function get_atendimentos()
     {
         return '/^GET-\/atendimentos\/?$/';
+    }
+
+    public static function get_atendimentos_funcionario()
+    {
+        return '/^GET-\/atendimentos-funcionario\/\d+\/?$/';
     }
 
     public static function post_atendimentos()

@@ -26,6 +26,10 @@ class filaRouter extends baseRouter
         {
             return $this->getFila();
         }
+        if ((bool)preg_match(urls::get_fila_dash(), $path ))
+        {
+            return $this->getFilaDash();
+        }
         else if ((bool)preg_match(urls::get_fila_employee(), $path ))
         {
             $params = parent::getUriParams($uri);
@@ -35,6 +39,10 @@ class filaRouter extends baseRouter
         else if ((bool)preg_match(urls::post_fila(), $path ))
         {
             return $this->createFila('POST', $body);
+        }
+        else if ((bool)preg_match(urls::post_fila_cancelar(), $path ))
+        {
+            return $this->cancelarFila($body);
         }
         else if ((bool)preg_match(urls::post_fila_andamento(), $path ))
         {
@@ -59,6 +67,11 @@ class filaRouter extends baseRouter
         return $this->filaController->select();
     }
 
+    public function getFilaDash()
+    {
+        return $this->filaController->selectFilaDash();
+    }
+
     public function getFilaEmployee($codfuncionario)
     {
         return $this->filaController->selectFilaEmployee($codfuncionario);
@@ -67,6 +80,11 @@ class filaRouter extends baseRouter
     public function andamentoFila($body)
     {
         return $this->filaController->andamento($body);
+    }
+
+    public function cancelarFila($body)
+    {
+        return $this->filaController->cancelar($body);
     }
 
     public function createFila($type, $body)

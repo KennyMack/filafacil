@@ -13,8 +13,8 @@ function formFuncionarios($name)
   $form .= '<li><label for="cbeTipo" >Tipo</label>';
   $form .= '<select name="cbeTipo" ng-options="o.name for o in funcionariosCtrl.cbeTypeOptions" ng-model="funcionariosCtrl.selectedTypeOption">';
   $form .= '</select></li>';
-  $form .= '<li><input type="button" ng-click="funcionariosCtrl.save()" name="btnSendForm" value="Salvar"></li>';
-  $form .= '<li><input type="button" ng-click="funcionariosCtrl.changePage(true)" id="btnCancel" name="btnCancel" value="Cancelar"></li>';
+  $form .= '<li><input type="button" class="btn" ng-click="funcionariosCtrl.save()" name="btnSendForm" value="Salvar"></li>';
+  $form .= '<li><input type="button" class="btn" ng-click="funcionariosCtrl.changePage(true)" id="btnCancel" name="btnCancel" value="Cancelar"></li>';
   $form .= '</ul>';
   $form .= '</form>';
   return $form;

@@ -34,6 +34,14 @@
             {
                 return $this->createFuncionario('POST', $body);
             }
+            else if ((bool)preg_match(urls::post_funcionario_login(), $path ))
+            {
+                return $this->loginUser('POST', $body);
+            }
+            else if ((bool)preg_match(urls::post_funcionario_logoff(), $path ))
+            {
+                return $this->logoffUser('POST', $body);
+            }
             else if ((bool)preg_match(urls::put_funcionario(), $path ))
             {
                 return $this->alterFuncionario('PUT', $body);
@@ -61,6 +69,16 @@
         public function createFuncionario($type, $body)
         {
             return $this->funcionarioController->save($type, $body);
+        }
+
+        public function loginUser($type, $body)
+        {
+            return $this->funcionarioController->login($type, $body);
+        }
+
+        public function logoffUser($type, $body)
+        {
+            return $this->funcionarioController->logoff($type, $body);
         }
 
         public function alterFuncionario($type, $body)

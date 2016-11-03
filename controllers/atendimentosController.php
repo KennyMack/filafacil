@@ -28,6 +28,18 @@
             }
         }
 
+        public function selectEmployee($id)
+        {
+            try
+            {
+                $this->atendimentosModel->setCodFuncionario($id);
+                return  parent::httpResponse(true, $this->atendimentosModel->getEmployeeFila());
+            }
+            catch (Exception $e) {
+                return parent::httpResponse(false, $e->getMessage());
+            }
+        }
+
         public function finaliza($body)
         {
           $this->filaModel = new Fila($this->db);
@@ -36,7 +48,7 @@
             $this->filaModel->setCodFila(parent::getField($body, "codfila", -1));
             $this->filaModel->finaliza();
 
-            return parent::httpResponse($data > 0, $this->save('POST', $body));
+            return $this->save('POST', $body);
 
           } catch (Exception $e) {
               return parent::httpResponse(false, $e->getMessage());

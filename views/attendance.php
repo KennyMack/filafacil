@@ -7,7 +7,7 @@
 <head>
 
 <?php
-    echo head('Adendimento');
+    echo head('Atendimento');
 ?>
 </head>
 <body ng-app="filafacil" >
@@ -28,16 +28,27 @@
           <div ng-if="atendimentoCtrl.inAttendance">
 
             <p class="p-Time">
-              Hora Inicio - {{ atendimentoCtrl.dtStart|date:'dd/MM/yyyy hh:mm' }}
+              Hora Inicio - {{ atendimentoCtrl.dtStart|date:'dd/MM/yyyy HH:mm' }}
             <br>
               Tempo Decorrido - {{ atendimentoCtrl.actualTime }}
             </p>
 
             <form class="frmRegister">
-              <textarea ng-model="atendimentoCtrl.description" name="txtObservacao"></textarea>
-              <input style="display:block; margin: 0 auto" type="button"
-                ng-click="atendimentoCtrl.save()"
-              name="button" value="Salvar e Encerrar"/>
+              <ul>
+                <li>
+                  <textarea ng-model="atendimentoCtrl.description" name="txtObservacao"></textarea>
+                </li>
+                <li>
+                  <input style="display:block; margin: 0 auto" type="button"
+                    ng-click="atendimentoCtrl.save()" class="btn"
+                  name="btnSave" value="Salvar e Encerrar"/>
+                </li>
+                <li>
+                  <input style="display:block; margin: 10px auto" type="button"
+                    ng-click="atendimentoCtrl.cancel()" class="btn"
+                  name="btnCancel" value="Cancelar"/>
+                </li>
+            </ul>
             </form>
           </div>
         </div>
@@ -64,8 +75,9 @@
           </table>
             <form class="frmRegister" >
               <input style="display:block; margin: 0 auto"
-                ng-click="atendimentoCtrl.startAttendance()"
-               type="button" name="button" value="Próximo"/>
+                ng-if="!atendimentoCtrl.inAttendance"
+                ng-click="atendimentoCtrl.startAttendance()" class="btn"
+               type="button" name="btnNext" value="Próximo"/>
             </form>
 
         </div>
@@ -88,11 +100,11 @@
                   Carregando
                 </td>
               </tr>
-              <tr ng-if="!atendimentoCtrl.loading" ng-repeat="r in atendimentoCtrl.datatableAttendance|orderBy:codatendimento:true">
+              <tr ng-if="!atendimentoCtrl.loading" ng-repeat="r in atendimentoCtrl.datatableAttendance">
                 <td ng-bind="r.codatendimento"></td>
                 <td ng-bind="r.codfila"></td>
-                <td ng-bind="r.dtinicio"></td>
-                <td ng-bind="r.dtfim"></td>
+                <td ng-bind="r.dtinicio|date:'dd/MM/yyyy HH:mm:ss'"></td>
+                <td ng-bind="r.dtfim|date:'dd/MM/yyyy HH:mm:ss'"></td>
                 <td ng-bind="r.observacao"></td>
               </tr>
             </tbody>

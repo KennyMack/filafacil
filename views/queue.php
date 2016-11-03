@@ -78,7 +78,7 @@
                   Carregando
                 </td>
               </tr>
-              <tr ng-if="!filaCtrl.loading" ng-repeat="r in filaCtrl.datatable|orderBy:codfila:true|filter:filaCtrl.txtSearch">
+              <tr ng-if="!filaCtrl.loading" ng-repeat="r in filaCtrl.datatable|filter:filaCtrl.txtSearch">
                 <td>
                   <button type="button" ng-click="filaCtrl.deleteRow(r.codfila)" name="btnDelete">
                     <i class="fa fa-trash" aria-hidden="true"></i>

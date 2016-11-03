@@ -27,6 +27,17 @@ class filaController extends baseController
         }
     }
 
+    public function selectFilaDash()
+    {
+        try
+        {
+            return parent::httpResponse(true, $this->filaModel->getSelectFila());
+        }
+        catch (Exception $e) {
+            return parent::httpResponse(false, $e->getMessage());
+        }
+    }
+
     public function selectFilaEmployee($codfuncionario)
     {
         try
@@ -72,6 +83,18 @@ class filaController extends baseController
         {
             $this->filaModel->setCodFila(parent::getField($body, "codfila", -1));
             return parent::httpResponse(true, $this->filaModel->andamento());
+        }
+        catch (Exception $e) {
+            return parent::httpResponse(false, $e->getMessage());
+        }
+    }
+
+    public function cancelar($body)
+    {
+        try
+        {
+            $this->filaModel->setCodFila(parent::getField($body, "codfila", -1));
+            return parent::httpResponse(true, $this->filaModel->cancelar());
         }
         catch (Exception $e) {
             return parent::httpResponse(false, $e->getMessage());

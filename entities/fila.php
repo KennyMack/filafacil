@@ -62,7 +62,22 @@ class Fila
                                           fila.status
                                      FROM fila
                                     INNER JOIN funcionario
-                                       ON (fila.codfuncionario = funcionario.codfuncionario)');
+                                       ON (fila.codfuncionario = funcionario.codfuncionario)
+                                    ORDER BY fila.codfila DESC');
+    }
+
+    public function getSelectFila()
+    {
+        return $this->db->getJson('SELECT tbnext.codfila, fila.ra, tbnext.codfuncionario, tbnext.funcionarionome
+                                     FROM (SELECT max(fila.codfila) codfila, fila.codfuncionario, funcionario.nome funcionarionome
+                                             FROM fila
+                                       INNER JOIN funcionario
+                                               ON (funcionario.codfuncionario = fila.codfuncionario)
+                                            WHERE fila.status = 1
+                                              AND funcionario.disponivel = 1
+                                         GROUP BY fila.codfuncionario) tbnext
+                               INNER JOIN fila
+                                       ON (tbnext.codfila = fila.codfila)');
     }
 
     public function selectFilaEmployee()
@@ -139,18 +154,31 @@ class Fila
         return $this->db->update($sql, $params);
     }
 
+    public function cancelar()
+    {
+        $sql = 'UPDATE fila
+                   SET status = 0
+                 WHERE codfila = :codfila';
 
+        $params = array(
+            ':codfila' => $this->codFila);
+
+
+        return $this->db->update($sql, $params);
+    }
 
     public function delete()
     {
         $sql = 'DELETE
-                       FROM fila
-                    WHERE codfila = :codfila';
+                  FROM fila
+                 WHERE codfila = :codfila';
 
         $params = array(
             ':codfila' => $this->codFila);
 
         return $this->db->remove($sql, $params);
     }
+
+
 }
 ?>

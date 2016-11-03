@@ -67,6 +67,61 @@
             }
         }
 
+        public function login($type, $body)
+        {
+            $this->funcionarioModel->setEmail(parent::getField($body, "email", -1));
+
+            try
+            {
+              $status = false;
+              $data = '';
+              $user = $this->funcionarioModel->getUser();
+
+              if (count($user) > 0) {
+                if (parent::getField($body, "senha", '-1') == $user[0]['senha']) {
+                  $this->funcionarioModel->setCodfuncionario($user[0]['codfuncionario']);
+                  $this->funcionarioModel->setDisponivel(1);
+                  $this->funcionarioModel->disponivel();
+                  $data = array(
+                    'codfuncionario' => $user[0]['codfuncionario'],
+                    'nome' => $user[0]['nome']
+                  );
+                  $status = true;
+                }
+              }
+
+              return parent::httpResponse($status , $data);
+            } catch (Exception $e) {
+                return parent::httpResponse(false, $e->getMessage());
+            }
+        }
+
+        public function logoff($type, $body)
+        {
+            $this->funcionarioModel->setEmail(parent::getField($body, "email", -1));
+
+            try
+            {
+              $status = false;
+              $data = '';
+              $user = $this->funcionarioModel->getUser();
+
+              if (count($user) > 0) {
+                $this->funcionarioModel->setCodfuncionario($user[0]['codfuncionario']);
+                $this->funcionarioModel->setDisponivel(0);
+                $this->funcionarioModel->disponivel();
+                $data = array(
+                    'codfuncionario' => $user[0]['codfuncionario']
+                  );
+                $status = true;
+              }
+
+              return parent::httpResponse($status , $data);
+            } catch (Exception $e) {
+                return parent::httpResponse(false, $e->getMessage());
+            }
+        }
+
         public function remove($id)
         {
             try

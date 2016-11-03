@@ -111,15 +111,15 @@
     public function getSelect()
     {
         return $this->db->getJson('SELECT funcionario.codfuncionario,
-                                                                 funcionario.nome,
-                                                                 funcionario.status,
-                                                                 funcionario.email,
-                                                                 funcionario.senha,
-                                                                 funcionario.descricao,
-                                                                 funcionario.disponivel,
-                                                                 funcionario.dtcadastro,
-                                                                 funcionario.tipo
-                                                      FROM funcionario');
+                                          funcionario.nome,
+                                          funcionario.status,
+                                          funcionario.email,
+                                          funcionario.senha,
+                                          funcionario.descricao,
+                                          funcionario.disponivel,
+                                          funcionario.dtcadastro,
+                                          funcionario.tipo
+                                     FROM funcionario');
     }
 
     public function getSelectAvailable()
@@ -129,6 +129,18 @@
                                      FROM funcionario
                                     WHERE funcionario.disponivel = 1
                                       AND funcionario.tipo = 1');
+    }
+
+    public function getUser()
+    {
+        return $this->db->fetchData('SELECT funcionario.codfuncionario,
+                                            funcionario.email,
+                                            funcionario.senha,
+                                            funcionario.nome
+                                       FROM funcionario
+                                      WHERE funcionario.status = 1
+                                        AND funcionario.email  = :email',
+                                      array(':email' => $this->email) );
     }
 
     public function insert()
@@ -184,6 +196,19 @@
             ':codfuncionario' => $this->codfuncionario);
 
         return $this->db->remove($sql, $params);
+    }
+
+    public function disponivel()
+    {
+        $sql = 'UPDATE funcionario
+                   SET disponivel = :disponivel
+                 WHERE codfuncionario = :codfuncionario';
+
+        $params = array(
+            ':disponivel' => $this->disponivel,
+            ':codfuncionario' => $this->codfuncionario);
+
+        return $this->db->update($sql, $params);
     }
 
 

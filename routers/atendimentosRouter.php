@@ -25,6 +25,11 @@ class atendimentosRouter extends baseRouter
         {
             return $this->getAtendimentos();
         }
+        else if ((bool)preg_match(urls::get_atendimentos_funcionario(), $path ))
+        {
+          $params = parent::getUriParams($uri);
+          return $this->getAtendimentosFuncionario($params[0]);
+        }
         else if ((bool)preg_match(urls::post_atendimentos(), $path ))
         {
             return $this->createAtendimentos('POST', $body);
@@ -50,6 +55,11 @@ class atendimentosRouter extends baseRouter
     public function getAtendimentos()
     {
         return $this->atendimentosController->select();
+    }
+
+    public function getAtendimentosFuncionario($id)
+    {
+        return $this->atendimentosController->selectEmployee($id);
     }
 
     public function createAtendimentos($type, $body)
